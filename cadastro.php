@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $genero = $_POST["genero"] ?? "";
     $cidade = trim($_POST["cidade"] ?? "");
     $estado = $_POST["estado"] ?? "";
-    $plano = $_POST["plano"] ?? "";
+    $curso = trim($_POST["curso"] ?? "");
 
     $erros = array();
 
@@ -26,20 +26,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($genero == "") $erros[] = "Escolha o gênero.";
     if ($cidade == "") $erros[] = "Digite a cidade.";
     if ($estado == "") $erros[] = "Escolha o estado.";
-    if ($plano == "") $erros[] = "Escolha o plano.";
+    if ($curso == "") $erros[] = "Digite o curso.";
 
     if (count($erros) == 0) {
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO alunos
-        (nome, email, senha, cpf, telefone, nascimento, genero, cidade, estado, plano)
+        $sql = "INSERT INTO usuarios
+        (nome, email, senha, cpf, telefone, nascimento, genero, cidade, estado, curso)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
         $stmt->bind_param(
             "ssssssssss",
             $nome, $email, $senha_hash, $cpf, $telefone,
-            $nascimento, $genero, $cidade, $estado, $plano
+            $nascimento, $genero, $cidade, $estado, $curso
         );
 
         if ($stmt->execute()) {
@@ -55,12 +55,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro - Academia FitPro</title>
+    <title>Cadastro</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="caixa cadastro">
-        <h1>CADASTRO DE ALUNO</h1>
+        <h1>CADASTRO</h1>
 
         <?php if (count($erros ?? array()) > 0) { ?>
             <div class="erro">
@@ -110,14 +110,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="Outro">Outro</option>
             </select>
 
-            <label>Plano:</label>
-            <select name="plano" required>
-                <option value="">Escolha</option>
-                <option value="Mensal">Mensal</option>
-                <option value="Trimestral">Trimestral</option>
-                <option value="Semestral">Semestral</option>
-                <option value="Anual">Anual</option>
-            </select>
+            <label>Curso:</label>
+            <input type="text" name="curso" placeholder="Desenvolvimento de Sistemas" required>
 
             <p>
                 <input type="checkbox" required>
