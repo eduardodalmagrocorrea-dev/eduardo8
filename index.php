@@ -5,12 +5,12 @@ session_start();
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Login - Academia FitPro</title>
+    <title>Login</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="caixa">
-        <h1>ACADEMIA FITPRO</h1>
+        <h1>LOGIN</h1>
 
         <?php if (isset($_GET["erro"])) { ?>
             <p class="erro">Email ou senha errados.</p>
